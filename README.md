@@ -79,8 +79,38 @@ Use a graphical tool like SQLite Studio to open `./data/northwind.db3` and execu
 In [SQL Try Editor at W3Schools.com](https://www.w3schools.com/Sql/tryit.asp?filename=trysql_select_top):
 
 - Find the number of shipments by each shipper.
+select shipperid, count(shipperid)
+from orders
+group by shipperid
+
 - Find the top 5 best performing employees measured in number of orders.
+select employeeid, count(employeeid)
+from orders
+group by employeeid
+order by count(*) desc
+limit 5
+
 - Find the top 5 best performing employees measured in revenue.
+select o.orderid, (e.firstname || " " || e.lastname) as name, sum(d.quantity * p.price) as revenue from orders as o
+join orderdetails as d on o.orderid = d.orderid
+join employees as e on o.employeeid = e.employeeid
+join products as p on d.productid = p.productid
+group by name
+order by revenue desc
+limit 5
+
 - Find the category that brings in the least revenue.
+SELECT p.categoryid, sum(p.categoryid * p.price) as revenue FROM OrderDetails as o
+join products as p on o.productid = p.productid
+group by p.categoryid
+order by revenue asc
+limit 1
+
 - Find the customer country with the most orders.
+select c.country, count(c.country) as ordersfrom from orders as o
+join customers as c on o.customerid = c.customerid
+group by c.country
+order by ordersfrom desc
+limit 1
+
 - Find the shipper that moves the most cheese measured in units.
